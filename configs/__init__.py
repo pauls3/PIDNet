@@ -1,11 +1,11 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) Microsoft
-# Licensed under the MIT License.
-# Written by Ke Sun (sunk@mail.ustc.edu.cn)
+# Modified based on https://github.com/HRNet/HRNet-Semantic-Segmentation
 # ------------------------------------------------------------------------------
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .default import _C as config
-from .default import update_config
+from .cityscapes import Cityscapes as cityscapes
+from .camvid import CamVid as camvid
+from .railsem19 import RailSem19 as railsem19
