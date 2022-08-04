@@ -1,1 +1,2 @@
-CUDA_VISIBLE_DEVICES="4,5,6,7" python3 tools/train.py --cfg configs/railsem19/pidnet_small_railsem19.yaml GPUS "4,5,6,7" TRAIN.BATCH_SIZE_PER_GPU 6
+CUDA_VISIBLE_DEVICES="4,5,6,7" python3 tools/train.py --cfg configs/railsem19/pidnet_small_railsem19.yaml GPUS "0,1,2,3" TRAIN.BATCH_SIZE_PER_GPU 6
+
