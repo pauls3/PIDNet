@@ -53,6 +53,8 @@ class RailSem19(BaseDataset):
         #                                 0.8786, 1.0023, 0.9539, 0.9843, 
         #                                 1.1116, 0.9037, 1.0865, 1.0955, 
         #                                 1.0865, 1.1529, 1.0507]).cuda()
+
+        self.class_weights = None
         
         self.bd_dilate_size = bd_dilate_size
     
