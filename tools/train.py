@@ -83,6 +83,8 @@ def main():
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+    print('datasets.'+config.DATASET.DATASET)
+    print(config.DATASET.ROOT,config.DATASET.TRAIN_SET,config.DATASET.NUM_CLASSES,config.TRAIN.MULTI_SCALE,config.TRAIN.FLIP,config.TRAIN.IGNORE_LABEL,config.TRAIN.BASE_SIZE,crop_size,config.TRAIN.SCALE_FACTOR)
     train_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TRAIN_SET,
@@ -103,8 +105,6 @@ def main():
         drop_last=True)
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
-    print('datasets.'+config.DATASET.DATASET)
-    print(config.DATASET.ROOT, config.DATASET.TEST_SET, config.DATASET.NUM_CLASSES, config.TRAIN.IGNORE_LABEL, config.TEST.BASE_SIZE, test_size)
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TEST_SET,
