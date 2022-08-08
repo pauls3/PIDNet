@@ -79,6 +79,8 @@ def main():
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=False)
  
+    print('0')
+
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
@@ -92,6 +94,7 @@ def main():
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         scale_factor=config.TRAIN.SCALE_FACTOR)
+    print('1')
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -100,7 +103,7 @@ def main():
         num_workers=config.WORKERS,
         pin_memory=False,
         drop_last=True)
-
+    print('2')
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
@@ -112,14 +115,14 @@ def main():
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TEST.BASE_SIZE,
                         crop_size=test_size)
-
+    print('3')
     testloader = torch.utils.data.DataLoader(
         test_dataset,
         batch_size=config.TEST.BATCH_SIZE_PER_GPU * len(gpus),
         shuffle=False,
         num_workers=config.WORKERS,
         pin_memory=False)
-
+    print('4')
     # criterion
     if config.LOSS.USE_OHEM:
         sem_criterion = OhemCrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
@@ -129,7 +132,7 @@ def main():
     else:
         sem_criterion = CrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
                                     weight=train_dataset.class_weights)
-
+    print('5')
     bd_criterion = BondaryLoss()
     
     model = FullModel(model, sem_criterion, bd_criterion)
@@ -149,6 +152,7 @@ def main():
     else:
         raise ValueError('Only Support SGD optimizer')
 
+    print('6')
     epoch_iters = int(train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
         
     best_mIoU = 0
@@ -166,6 +170,7 @@ def main():
             optimizer.load_state_dict(checkpoint['optimizer'])
             logger.info("=> loaded checkpoint (epoch {})".format(checkpoint['epoch']))
 
+    print('7')
     start = timeit.default_timer()
     end_epoch = config.TRAIN.END_EPOCH
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
