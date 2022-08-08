@@ -12,7 +12,7 @@ DATASET:
   DATASET: railsem19
   ROOT: data/
   TEST_SET: 'list/railsem19/val.lst'
-  TRAIN_SET: 'list/railsem19/val.lst'
+  TRAIN_SET: 'list/railsem19/train.lst'
   NUM_CLASSES: 19
 MODEL:
   NAME: pidnet_small

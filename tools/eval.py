@@ -102,6 +102,7 @@ def main():
     
     
     if ('test' in config.DATASET.TEST_SET) and ('city' in config.DATASET.DATASET):
+        print('0')
         test(config, 
              test_dataset, 
              testloader, 
@@ -109,6 +110,7 @@ def main():
              sv_dir=final_output_dir)
         
     else:
+        print('1')
         mean_IoU, IoU_array, pixel_acc, mean_acc = testval(config, 
                                                            test_dataset, 
                                                            testloader, 
