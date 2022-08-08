@@ -26,6 +26,9 @@ from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
 from utils.function import train, validate
 from utils.utils import create_logger, FullModel
 
+os.environ["OMP_NUM_THREADS"] = "1" 
+os.environ["MKL_NUM_THREADS"] = "1" 
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
