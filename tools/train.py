@@ -176,6 +176,7 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     print('8')
+    print(last_epoch, real_end)
     for epoch in range(last_epoch, real_end):
         print('9')
         current_trainloader = trainloader
