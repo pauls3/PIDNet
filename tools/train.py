@@ -79,7 +79,6 @@ def main():
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=False)
  
-    print('0')
 
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -94,7 +93,6 @@ def main():
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         scale_factor=config.TRAIN.SCALE_FACTOR)
-    print('1')
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -103,7 +101,6 @@ def main():
         num_workers=config.WORKERS,
         pin_memory=False,
         drop_last=True)
-    print('2')
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
@@ -115,14 +112,12 @@ def main():
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TEST.BASE_SIZE,
                         crop_size=test_size)
-    print('3')
     testloader = torch.utils.data.DataLoader(
         test_dataset,
         batch_size=config.TEST.BATCH_SIZE_PER_GPU * len(gpus),
         shuffle=False,
         num_workers=config.WORKERS,
         pin_memory=False)
-    print('4')
     # criterion
     if config.LOSS.USE_OHEM:
         sem_criterion = OhemCrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
@@ -132,7 +127,6 @@ def main():
     else:
         sem_criterion = CrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
                                     weight=train_dataset.class_weights)
-    print('5')
     bd_criterion = BondaryLoss()
     
     model = FullModel(model, sem_criterion, bd_criterion)
@@ -152,7 +146,6 @@ def main():
     else:
         raise ValueError('Only Support SGD optimizer')
 
-    print('6')
     epoch_iters = int(train_dataset.__len__() / config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))
         
     best_mIoU = 0
@@ -170,29 +163,26 @@ def main():
             optimizer.load_state_dict(checkpoint['optimizer'])
             logger.info("=> loaded checkpoint (epoch {})".format(checkpoint['epoch']))
 
-    print('7')
     start = timeit.default_timer()
     end_epoch = config.TRAIN.END_EPOCH
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
-    print('8')
-    print(last_epoch, real_end)
     for epoch in range(last_epoch, real_end):
-        print('9')
+        print('0')
         current_trainloader = trainloader
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
             current_trainloader.sampler.set_epoch(epoch)
-
+        print('1')
         train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict)
-        print('10')
+        print('2')
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
             valid_loss, mean_IoU, IoU_array = validate(config, 
                         testloader, model, writer_dict)
         if flag_rm == 1:
             flag_rm = 0
-        print('11')
+        print('3')
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))
         torch.save({
