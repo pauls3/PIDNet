@@ -22,7 +22,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, trainloader, optimizer, model, writer_dict):
     # Training
     model.train()
-    print('0')
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
     ave_acc  = AverageMeter()
@@ -32,45 +31,45 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
-    print('1')
-    with torch.no_grad():
-        for i_iter, batch in enumerate(tqdm(trainloader)):
-            images, labels, bd_gts, _, _ = batch
-            images = images.cuda()
-            labels = labels.long().cuda()
-            bd_gts = bd_gts.float().cuda()
-            print('2')
+    print('0')
+    for i_iter, batch in enumerate(tqdm(trainloader)):
+        print('1')
+        images, labels, bd_gts, _, _ = batch
+        images = images.cuda()
+        labels = labels.long().cuda()
+        bd_gts = bd_gts.float().cuda()
+        print('2')
 
-            losses, _, acc, loss_list = model(images, labels, bd_gts)
-            loss = losses.mean()
-            acc  = acc.mean()
+        losses, _, acc, loss_list = model(images, labels, bd_gts)
+        loss = losses.mean()
+        acc  = acc.mean()
 
-            model.zero_grad()
-            loss.backward()
-            optimizer.step()
+        model.zero_grad()
+        loss.backward()
+        optimizer.step()
 
-            # measure elapsed time
-            batch_time.update(time.time() - tic)
-            tic = time.time()
+        # measure elapsed time
+        batch_time.update(time.time() - tic)
+        tic = time.time()
 
-            # update average loss
-            ave_loss.update(loss.item())
-            ave_acc.update(acc.item())
-            avg_sem_loss.update(loss_list[0].mean().item())
-            avg_bce_loss.update(loss_list[1].mean().item())
+        # update average loss
+        ave_loss.update(loss.item())
+        ave_acc.update(acc.item())
+        avg_sem_loss.update(loss_list[0].mean().item())
+        avg_bce_loss.update(loss_list[1].mean().item())
 
-            lr = adjust_learning_rate(optimizer,
-                                    base_lr,
-                                    num_iters,
-                                    i_iter+cur_iters)
-            print('3')
-            if i_iter % config.PRINT_FREQ == 0:
-                msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                    'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
-                        epoch, num_epoch, i_iter, epoch_iters,
-                        batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
-                        ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average())
-                logging.info(msg)
+        lr = adjust_learning_rate(optimizer,
+                                  base_lr,
+                                  num_iters,
+                                  i_iter+cur_iters)
+        print('3')
+        if i_iter % config.PRINT_FREQ == 0:
+            msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
+                      epoch, num_epoch, i_iter, epoch_iters,
+                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average())
+            logging.info(msg)
 
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
