@@ -34,7 +34,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     global_steps = writer_dict['train_global_steps']
     print('1')
     print(enumerate(trainloader, 0))
-    for i_iter, batch in enumerate(trainloader, 0):
+    for i_iter, batch in enumerate(tqdm(trainloader)):
         print(i_iter, batch)
         images, labels, bd_gts, _, _ = batch
         images = images.cuda()
