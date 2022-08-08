@@ -33,6 +33,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
     print('1')
+    print(trainloader)
     for i_iter, batch in enumerate(trainloader, 0):
         print(i_iter, batch)
         images, labels, bd_gts, _, _ = batch
