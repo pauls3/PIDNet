@@ -41,15 +41,11 @@ class Flame(BaseDataset):
         self.files = self.read_files()
         self.ignore_label = ignore_label
 
-        # self.class_weights = torch.FloatTensor([0.8373, 0.918, 0.866, 1.0345, 
-        #                                 1.0166, 0.9969, 0.9754, 1.0489,
-        #                                 0.8786, 1.0023, 0.9539, 0.9843, 
-        #                                 1.1116, 0.9037, 1.0865, 1.0955, 
-        #                                 1.0865, 1.1529, 1.0507]).cuda()
+        self.class_weights = torch.FloatTensor([0.7, 1.3]).cuda()
 
         self.color_list = [[255,255,255], [0,0,0]]
         
-        self.class_weights = None
+        # self.class_weights = None
 
         self.bd_dilate_size = bd_dilate_size
     
