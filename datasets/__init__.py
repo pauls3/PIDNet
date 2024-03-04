@@ -9,3 +9,4 @@ from __future__ import print_function
 # from .cityscapes import Cityscapes as cityscapes
 # from .camvid import CamVid as camvid
 from .railsem19 import RailSem19 as railsem19
+from .flame import Flame as flame
