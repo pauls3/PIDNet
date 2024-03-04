@@ -4,8 +4,7 @@
 
 import os
 
-# import cv2
-import matplotlib.image as mpimg
+import cv2
 import numpy as np
 from PIL import Image
 
@@ -93,9 +92,8 @@ class RailSem19(BaseDataset):
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
-        image = mpimg.imread(os.path.join(self.root,item["img"]))
-        # image = cv2.imread(os.path.join(self.root,item["img"]),
-        #                    cv2.IMREAD_COLOR)
+        image = cv2.imread(os.path.join(self.root,item["img"]),
+                           cv2.IMREAD_COLOR)
         size = image.shape
 
         if 'test' in self.list_path:
@@ -104,9 +102,8 @@ class RailSem19(BaseDataset):
 
             return image.copy(), np.array(size), name
 
-        label = mpimg.imread(os.path.join(self.root,item["label"]))
-        # label = cv2.imread(os.path.join(self.root,item["label"]),
-        #                    cv2.IMREAD_GRAYSCALE)
+        label = cv2.imread(os.path.join(self.root,item["label"]),
+                           cv2.IMREAD_GRAYSCALE)
         label = self.convert_label(label)
 
         image, label, edge = self.gen_sample(image, label, 

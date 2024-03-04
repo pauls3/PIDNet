@@ -1,2 +1,13 @@
-CUDA_VISIBLE_DEVICES="4,5,6,7" python3 tools/train.py --cfg configs/railsem19/pidnet_small_railsem19.yaml GPUS "0,1,2,3" TRAIN.BATCH_SIZE_PER_GPU 6
+CUDA_VISIBLE_DEVICES="7" python3 tools/train.py --cfg configs/railsem19/pidnet_small_railsem19.yaml GPUS "0" TRAIN.BATCH_SIZE_PER_GPU 1
 
+
+CUDA_VISIBLE_DEVICES="7" python3 tools/eval.py --cfg configs/railsem19/pidnet_small_railsem19.yaml TEST.MODEL_FILE pretrained_models/cityscapes/PIDNet_S_Cityscapes_val.pt
+
+
+
+
+
+
+##### Flame
+
+CUDA_VISIBLE_DEVICES="5,6" python3 tools/train.py --cfg configs/railsem19/pidnet_large_flame.yaml GPUS "0,1" TRAIN.BATCH_SIZE_PER_GPU 2
