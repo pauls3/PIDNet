@@ -31,14 +31,11 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
-    print('0')
     for i_iter, batch in enumerate(tqdm(trainloader)):
-        print('1')
         images, labels, bd_gts, _, _ = batch
         images = images.cuda()
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
-        print('2')
 
         losses, _, acc, loss_list = model(images, labels, bd_gts)
         loss = losses.mean()
@@ -62,7 +59,6 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
                                   base_lr,
                                   num_iters,
                                   i_iter+cur_iters)
-        print('3')
         if i_iter % config.PRINT_FREQ == 0:
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
                   'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
@@ -105,8 +101,8 @@ def validate(config, testloader, model, writer_dict):
                     config.TRAIN.IGNORE_LABEL
                 )
 
-            if idx % 10 == 0:
-                print(idx)
+            # if idx % 10 == 0:
+            #     print(idx)
 
             loss = losses.mean()
             ave_loss.update(loss.item())

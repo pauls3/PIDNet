@@ -10,4 +10,4 @@ CUDA_VISIBLE_DEVICES="7" python3 tools/eval.py --cfg configs/railsem19/pidnet_sm
 
 ##### Flame
 
-CUDA_VISIBLE_DEVICES="5,6" python3 tools/train.py --cfg configs/flame/pidnet_large_flame.yaml GPUS "0,1" TRAIN.BATCH_SIZE_PER_GPU 2
+CUDA_VISIBLE_DEVICES="5,6" python3 tools/train.py --cfg configs/flame/pidnet_large_flame.yaml GPUS "0,1" TRAIN.BATCH_SIZE_PER_GPU 6
