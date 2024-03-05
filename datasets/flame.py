@@ -41,7 +41,7 @@ class Flame(BaseDataset):
         self.files = self.read_files()
         self.ignore_label = ignore_label
 
-        self.class_weights = torch.FloatTensor([0.7, 1.7]).cuda()
+        self.class_weights = torch.FloatTensor([0.7, 2.0]).cuda()
 
         self.label_mapping = {-1: ignore_label, 0: 0, 
                         1: 1}
