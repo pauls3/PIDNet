@@ -74,9 +74,9 @@ def load_pretrained(model, pretrained):
 if __name__ == '__main__':
     args = parse_args()
     images_list = glob.glob(args.r+'*'+args.t)
+    print(images_list)
     sv_path = args.r+'outputs/'
 
-    print(sv_path)
     
     model = models.pidnet.get_pred_model(args.a, 19 if args.c else 11)
     model = load_pretrained(model, args.p).cuda()
@@ -84,6 +84,7 @@ if __name__ == '__main__':
     with torch.no_grad():
         for img_path in images_list:
             img_name = img_path.split("\\")[-1]
+            print(os.path.join(args.r, img_name))
             img = cv2.imread(os.path.join(args.r, img_name),
                                cv2.IMREAD_COLOR)
             sv_img = np.zeros_like(img).astype(np.uint8)
