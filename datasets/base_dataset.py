@@ -113,14 +113,16 @@ class BaseDataset(data.Dataset):
             edge = np.pad(edge, ((y_k_size,y_k_size),(x_k_size,x_k_size)), mode='constant')
         edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
         
-        if multi_scale:
-            rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
-            image, label, edge = self.multi_scale_aug(image, label, edge,
-                                                rand_scale=rand_scale)
+        # if multi_scale:
+        #     rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
+        #     image, label, edge = self.multi_scale_aug(image, label, edge,
+        #                                         rand_scale=rand_scale)
 
         image = self.input_transform(image, city=city)
         label = self.label_transform(label)
-        
+        edge = self.label_transform(edge)
+
+        cv2.imwrite('/home/stanik/repos/PIDNet/edges/edge.png', edge)
 
         image = image.transpose((2, 0, 1))
 
