@@ -94,7 +94,7 @@ class Flame(BaseDataset):
         size = image.shape
 
         color_map = Image.open(os.path.join(self.root,'flame',item["label"])).convert('RGB')
-        color_map = np.array(color_map)
+        # color_map = np.array(color_map)
         # label = self.color2label(color_map)
         label = color_map
 
