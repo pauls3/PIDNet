@@ -17,3 +17,6 @@ CUDA_VISIBLE_DEVICES="6" python3 tools/train.py --cfg configs/flame/pidnet_large
 CUDA_VISIBLE_DEVICES="6" python3 tools/eval.py --cfg configs/flame/pidnet_small_flame.yaml \
                           TEST.MODEL_FILE output/flame/pidnet_small_flame/best.pt\
                           DATASET.TEST_SET list/flame/test.lst
+
+CUDA_VISIBLE_DEVICES="6" python3 tools/custom.py --a 'pidnet-s' --p '../poutput/flame/pidnet_small_flame/best.pt' --t '.png'
+CUDA_VISIBLE_DEVICES="6" python tools/custom.py --a 'pidnet-l' --p '../pretrained_models/cityscapes/PIDNet_S_Cityscapes_test.pt' --t '.png'
