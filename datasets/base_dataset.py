@@ -10,7 +10,6 @@ from torch.utils import data
 
 y_k_size = 6
 x_k_size = 6
-
 class BaseDataset(data.Dataset):
     def __init__(self,
                  ignore_label=255,
@@ -23,28 +22,29 @@ class BaseDataset(data.Dataset):
         self.base_size = base_size
         self.crop_size = crop_size
         self.ignore_label = ignore_label
-
         self.mean = mean
         self.std = std
         self.scale_factor = scale_factor
-
         self.files = []
-
+        self.size = (512,256)
     def __len__(self):
         return len(self.files)
 
     def input_transform(self, image, city=True):
-        if city:
-            image = image.astype(np.float32)[:, :, ::-1]
-        else:
-            image = image.astype(np.float32)
+        image = cv2.resize(image, self.size, interpolation=cv2.INTER_LINEAR)
+        image = image.astype(np.float32)
         image = image / 255.0
         image -= self.mean
         image /= self.std
         return image
 
     def label_transform(self, label):
+        label = cv2.resize(label, self.size, interpolation=cv2.INTER_NEAREST)
         return np.array(label).astype(np.uint8)
+    
+    def edge_transform(self, label):
+        edge = cv2.resize(edge, self.size, interpolation=cv2.INTER_NEAREST)
+        return edge
 
     def pad_image(self, image, h, w, size, padvalue):
         pad_image = image.copy()
@@ -122,8 +122,6 @@ class BaseDataset(data.Dataset):
         label = self.label_transform(label)
         edge = self.label_transform(edge)
 
-        cv2.imwrite('/home/stanik/repos/PIDNet/edges/edge.png', edge)
-
         image = image.transpose((2, 0, 1))
 
         if is_flip:
@@ -150,4 +148,3 @@ class BaseDataset(data.Dataset):
         
         
         return pred.exp()
-
