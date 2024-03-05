@@ -76,7 +76,7 @@ if __name__ == '__main__':
     images_list = glob.glob(args.r+'*'+args.t)
     sv_path = args.r+'outputs/'
 
-    model = models.pidnet.get_pred_model(args.a, 19 if args.c else 11)
+    model = models.pidnet.get_pred_model(args.a, 19 if args.c else 2)
     model = load_pretrained(model, args.p).cuda()
     model.eval()
     with torch.no_grad():

@@ -17,7 +17,7 @@ DATASET:
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
-  PRETRAINED: "output/flame/pidnet_small_flame/best.pt"
+  PRETRAINED: "pretrained_models/cityscapes/PIDNet_S_Cityscapes_test.pt"
 LOSS:
   USE_OHEM: true
   OHEMTHRES: 0.9
@@ -31,9 +31,9 @@ TRAIN:
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 6
   SHUFFLE: true
-  BEGIN_EPOCH: 98
+  BEGIN_EPOCH: 0
   END_EPOCH: 484
-  RESUME: true
+  RESUME: false
   OPTIMIZER: sgd
   LR: 0.000001
   WD: 0.0005
