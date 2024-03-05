@@ -104,7 +104,7 @@ class BaseDataset(data.Dataset):
 
 
     def gen_sample(self, image, label,
-                   multi_scale=False, is_flip=True, edge_pad=True, edge_size=2, city=False):
+                   multi_scale=False, is_flip=True, edge_pad=True, edge_size=8, city=False):
         
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
