@@ -14,6 +14,6 @@ CUDA_VISIBLE_DEVICES="5,6" python3 tools/train.py --cfg configs/flame/pidnet_lar
 CUDA_VISIBLE_DEVICES="6" python3 tools/train.py --cfg configs/flame/pidnet_large_flame.yaml GPUS "0" TRAIN.BATCH_SIZE_PER_GPU 1
 
 
-python3 tools/eval.py --cfg configs/flame/pidnet_small_flame.yaml \
+CUDA_VISIBLE_DEVICES="6" python3 tools/eval.py --cfg configs/flame/pidnet_small_flame.yaml \
                           TEST.MODEL_FILE output/flame/pidnet_small_flame/best.pt\
                           DATASET.TEST_SET list/flame/test.lst
