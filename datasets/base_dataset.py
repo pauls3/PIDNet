@@ -104,7 +104,7 @@ class BaseDataset(data.Dataset):
 
 
     def gen_sample(self, image, label,
-                   multi_scale=False, is_flip=True, edge_pad=True, edge_size=8, city=False):
+                   multi_scale=True, is_flip=True, edge_pad=True, edge_size=8, city=False):
         
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
@@ -113,10 +113,10 @@ class BaseDataset(data.Dataset):
             edge = np.pad(edge, ((y_k_size,y_k_size),(x_k_size,x_k_size)), mode='constant')
         edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
         
-        # if multi_scale:
-        #     rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
-        #     image, label, edge = self.multi_scale_aug(image, label, edge,
-        #                                         rand_scale=rand_scale)
+        if multi_scale:
+            rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
+            image, label, edge = self.multi_scale_aug(image, label, edge,
+                                                rand_scale=rand_scale)
 
         image = self.input_transform(image, city=city)
         label = self.label_transform(label)
