@@ -116,7 +116,8 @@ class Flame(BaseDataset):
         preds = np.asarray(np.argmax(preds.cpu(), axis=1), dtype=np.uint8)
         for i in range(preds.shape[0]):
             # pred = self.convert_label(preds[i], inverse=True)
-            pred = self.label2color(preds[i])
+            # pred = self.label2color(preds[i])
+            pred = preds[i]
             save_img = Image.fromarray(pred)
             save_img.save(os.path.join(sv_path, name[i]+'.png'))
 
