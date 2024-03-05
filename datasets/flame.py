@@ -95,7 +95,8 @@ class Flame(BaseDataset):
 
         color_map = Image.open(os.path.join(self.root,'flame',item["label"])).convert('RGB')
         color_map = np.array(color_map)
-        label = self.color2label(color_map)
+        # label = self.color2label(color_map)
+        label = color_map
 
         # label = cv2.imread(os.path.join(self.root,'cityscapes',item["label"]),
         #                    cv2.IMREAD_GRAYSCALE)
