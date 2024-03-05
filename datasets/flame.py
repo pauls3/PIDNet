@@ -96,6 +96,7 @@ class Flame(BaseDataset):
     #     return label
 
     def __getitem__(self, index):
+        print(item)
         item = self.files[index]
         name = item["name"]
         image = cv2.imread(os.path.join(self.root,'flame',item["img"]),

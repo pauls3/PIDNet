@@ -17,7 +17,7 @@ DATASET:
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
-  PRETRAINED: "pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar"
+  PRETRAINED: "output/flame/pidnet_small_flame/best.pt"
 LOSS:
   USE_OHEM: true
   OHEMTHRES: 0.9
@@ -31,9 +31,9 @@ TRAIN:
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 6
   SHUFFLE: true
-  BEGIN_EPOCH: 0
+  BEGIN_EPOCH: 98
   END_EPOCH: 484
-  RESUME: false
+  RESUME: true
   OPTIMIZER: sgd
   LR: 0.000001
   WD: 0.0005
