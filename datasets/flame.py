@@ -43,6 +43,9 @@ class Flame(BaseDataset):
 
         # self.class_weights = torch.FloatTensor([0.8, 1.2]).cuda()
 
+        self.label_mapping = {-1: ignore_label, 0: 0, 
+                        1: 1}
+
         self.color_list = [[255,255,255], [0,0,0]]
         
         self.class_weights = None
@@ -93,8 +96,10 @@ class Flame(BaseDataset):
                            cv2.IMREAD_COLOR)
         size = image.shape
 
-        color_map = Image.open(os.path.join(self.root,'flame',item["label"])).convert('RGB')
-        # color_map = np.array(color_map)
+        # color_map = Image.open(os.path.join(self.root,'flame',item["label"])).convert('RGB')
+        color_map = cv2.imread(os.path.join(self.root,'flame',item["label"]),
+                           cv2.IMREAD_GRAYSCALE)
+        color_map = np.array(color_map)
         # label = self.color2label(color_map)
         label = color_map
 
