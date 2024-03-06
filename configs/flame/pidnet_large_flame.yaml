@@ -12,7 +12,7 @@ DATASET:
   DATASET: flame
   ROOT: data/
   TEST_SET: 'list/flame/val.lst'
-  TRAIN_SET: 'list/flame/train.lst'
+  TRAIN_SET: 'list/flame/trainVal.lst'
   NUM_CLASSES: 2
 MODEL:
   NAME: pidnet_large
