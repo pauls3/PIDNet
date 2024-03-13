@@ -146,7 +146,7 @@ def testval(config, test_dataset, testloader, model,
             
             # pred = F.interpolate(pred, size=image.size()[-2:], 
             #                      mode='bilinear', align_corners=True)
-            # pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
+            pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
 
             sv_img = np.zeros_like(image).astype(np.uint8)
             for i, color in enumerate(color_map):
