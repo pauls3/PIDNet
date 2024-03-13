@@ -78,7 +78,7 @@ if __name__ == '__main__':
     args = parse_args()
     images_list = glob.glob(args.r+'*'+args.t)
     sv_path = args.r+'outputs/'
-
+    print("Using pretrained model at:\t", args.p)
     print("Save path:\t", sv_path)
     print("Number of images found:\t", len(images_list))
 
