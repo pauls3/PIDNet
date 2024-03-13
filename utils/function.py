@@ -15,7 +15,6 @@ from torch.nn import functional as F
 from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
-from PIL import Image
 
 
 
@@ -127,10 +126,6 @@ def validate(config, testloader, model, writer_dict):
 
 def testval(config, test_dataset, testloader, model,
             sv_dir='./', sv_pred=True):
-    color_map = [(255,255,255),
-             (0,  0,  0)]
-    img_size = [2048,1024,3]
-
     model.eval()
     confusion_matrix = np.zeros((config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
     with torch.no_grad():
@@ -139,24 +134,12 @@ def testval(config, test_dataset, testloader, model,
             size = label.size()
             pred = test_dataset.single_scale_inference(config, model, image.cuda())
 
-
-            pred_ = F.interpolate(pred, size=(img_size[0], img_size[1]),#size=image.size()[-2:], 
-                                 mode='bilinear', align_corners=True)
-            pred_ = torch.argmax(pred_, dim=1).squeeze(0).cpu().numpy()
-            sv_img = np.zeros(img_size).astype(np.uint8)
-            
-
-            for i, color in enumerate(color_map):
-                for j in range(3):
-                    sv_img[:,:,j][pred_==i] = color_map[i][j]
-            sv_img = Image.fromarray(sv_img)
-
             if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
                 pred = F.interpolate(
                     pred, size[-2:],
                     mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
                 )
-
+            
             confusion_matrix += get_confusion_matrix(
                 label,
                 pred,
@@ -168,9 +151,7 @@ def testval(config, test_dataset, testloader, model,
                 sv_path = os.path.join(sv_dir, 'val_results')
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
-                # test_dataset.save_pred(pred, sv_path, name)
-                # test_dataset.save_pred(sv_img, sv_path, name)
-                sv_img.save(os.path.join(sv_path, name[0] + '.png'))
+                test_dataset.save_pred(pred, sv_path, name)
 
             if index % 100 == 0:
                 logging.info('processing: %d images' % index)
