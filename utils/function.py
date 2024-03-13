@@ -126,6 +126,7 @@ def validate(config, testloader, model, writer_dict):
 
 def testval(config, test_dataset, testloader, model,
             sv_dir='./', sv_pred=True):
+    img_size = [2048, 1024]
     model.eval()
     confusion_matrix = np.zeros((config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
     with torch.no_grad():
@@ -134,11 +135,17 @@ def testval(config, test_dataset, testloader, model,
             size = label.size()
             pred = test_dataset.single_scale_inference(config, model, image.cuda())
 
-            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-                pred = F.interpolate(
-                    pred, size[-2:],
-                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-                )
+            pred = F.interpolate(
+                pred, img_size,
+                mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+            )
+
+            # if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
+            #     pred = F.interpolate(
+            #         pred, size[-2:],
+            #         mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+            #     )
+            
             
             confusion_matrix += get_confusion_matrix(
                 label,
