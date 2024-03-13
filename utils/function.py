@@ -138,15 +138,16 @@ def testval(config, test_dataset, testloader, model,
             size = label.size()
             pred = test_dataset.single_scale_inference(config, model, image.cuda())
 
-            # if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-            #     pred = F.interpolate(
-            #         pred, size[-2:],
-            #         mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-            #     )
+            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
+                pred = F.interpolate(
+                    pred, size[-2:],
+                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+                )
             
-            pred = F.interpolate(pred, size=image.size()[-2:], 
-                                 mode='bilinear', align_corners=True)
-            pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
+            # pred = F.interpolate(pred, size=image.size()[-2:], 
+            #                      mode='bilinear', align_corners=True)
+            # pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
+
             sv_img = np.zeros_like(image).astype(np.uint8)
             for i, color in enumerate(color_map):
                 for j in range(3):
