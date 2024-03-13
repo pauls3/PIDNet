@@ -144,13 +144,6 @@ def testval(config, test_dataset, testloader, model,
                                  mode='bilinear', align_corners=True)
             pred_ = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
             sv_img = np.zeros(img_size).astype(np.uint8)
-
-            
-            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-                pred = F.interpolate(
-                    pred, size[-2:],
-                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-                )
             
 
             print(pred_.shape)
@@ -159,6 +152,12 @@ def testval(config, test_dataset, testloader, model,
                 for j in range(3):
                     sv_img[:,:,j][pred_==i] = color_map[i][j]
             sv_img = Image.fromarray(sv_img)
+
+            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
+                pred = F.interpolate(
+                    pred, size[-2:],
+                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+                )
 
             confusion_matrix += get_confusion_matrix(
                 label,
