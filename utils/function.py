@@ -146,8 +146,6 @@ def testval(config, test_dataset, testloader, model,
             sv_img = np.zeros(img_size).astype(np.uint8)
             
 
-            print(pred_.shape)
-            print(sv_img.shape)
             for i, color in enumerate(color_map):
                 for j in range(3):
                     sv_img[:,:,j][pred_==i] = color_map[i][j]
@@ -171,7 +169,8 @@ def testval(config, test_dataset, testloader, model,
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
                 # test_dataset.save_pred(pred, sv_path, name)
-                test_dataset.save_pred(sv_img, sv_path, name)
+                # test_dataset.save_pred(sv_img, sv_path, name)
+                sv_img.save(os.path.join(sv_img, sv_path, name))
 
             if index % 100 == 0:
                 logging.info('processing: %d images' % index)
