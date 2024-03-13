@@ -164,6 +164,8 @@ def testval(config, test_dataset, testloader, model,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
 
+            print(name)
+
             if sv_pred:
                 sv_path = os.path.join(sv_dir, 'val_results')
                 if not os.path.exists(sv_path):
