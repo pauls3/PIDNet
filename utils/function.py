@@ -139,22 +139,22 @@ def testval(config, test_dataset, testloader, model,
             size = label.size()
             pred = test_dataset.single_scale_inference(config, model, image.cuda())
 
-            # if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-            #     pred = F.interpolate(
-            #         pred, size[-2:],
-            #         mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-            #     )
+            if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
+                pred = F.interpolate(
+                    pred, size[-2:],
+                    mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+                )
             
-            pred = F.interpolate(pred, size=(img_size[0], img_size[1]),#size=image.size()[-2:], 
+            pred_ = F.interpolate(pred, size=(img_size[0], img_size[1]),#size=image.size()[-2:], 
                                  mode='bilinear', align_corners=True)
-            pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
+            pred_ = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
             sv_img = np.zeros(img_size).astype(np.uint8)
 
             print(pred.shape)
             print(sv_img.shape)
             for i, color in enumerate(color_map):
                 for j in range(3):
-                    sv_img[:,:,j][pred==i] = color_map[i][j]
+                    sv_img[:,:,j][pred_==i] = color_map[i][j]
             sv_img = Image.fromarray(sv_img)
 
             confusion_matrix += get_confusion_matrix(
