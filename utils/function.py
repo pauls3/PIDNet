@@ -129,7 +129,7 @@ def testval(config, test_dataset, testloader, model,
             sv_dir='./', sv_pred=True):
     color_map = [(255,255,255),
              (0,  0,  0)]
-    img_size = [2048,1024]
+    img_size = [2048,1024,3]
 
     model.eval()
     confusion_matrix = np.zeros((config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
@@ -145,7 +145,7 @@ def testval(config, test_dataset, testloader, model,
             #         mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
             #     )
             
-            pred = F.interpolate(pred, size=img_size,#size=image.size()[-2:], 
+            pred = F.interpolate(pred, size=img_size[-2:],#size=image.size()[-2:], 
                                  mode='bilinear', align_corners=True)
             pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
             sv_img = np.zeros_like(img_size).astype(np.uint8)
