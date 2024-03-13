@@ -153,7 +153,7 @@ def testval(config, test_dataset, testloader, model,
                 )
             
 
-            print(pred.shape)
+            print(pred_.shape)
             print(sv_img.shape)
             for i, color in enumerate(color_map):
                 for j in range(3):
