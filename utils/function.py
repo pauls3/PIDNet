@@ -139,16 +139,19 @@ def testval(config, test_dataset, testloader, model,
             size = label.size()
             pred = test_dataset.single_scale_inference(config, model, image.cuda())
 
+
+            pred_ = F.interpolate(pred, size=(img_size[0], img_size[1]),#size=image.size()[-2:], 
+                                 mode='bilinear', align_corners=True)
+            pred_ = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
+            sv_img = np.zeros(img_size).astype(np.uint8)
+
+            
             if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
                 pred = F.interpolate(
                     pred, size[-2:],
                     mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
                 )
             
-            pred_ = F.interpolate(pred, size=(img_size[0], img_size[1]),#size=image.size()[-2:], 
-                                 mode='bilinear', align_corners=True)
-            pred_ = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
-            sv_img = np.zeros(img_size).astype(np.uint8)
 
             print(pred.shape)
             print(sv_img.shape)
