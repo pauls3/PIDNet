@@ -79,6 +79,9 @@ if __name__ == '__main__':
     images_list = glob.glob(args.r+'*'+args.t)
     sv_path = args.r+'outputs/'
 
+    print("Save path:\t", sv_path)
+    print("Number of images found:\t", len(images_list))
+
     model = models.pidnet.get_pred_model(args.a, 19 if args.c else 2)
     model = load_pretrained(model, args.p).cuda()
     model.eval()
