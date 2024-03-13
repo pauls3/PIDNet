@@ -126,7 +126,7 @@ def validate(config, testloader, model, writer_dict):
 
 def testval(config, test_dataset, testloader, model,
             sv_dir='./', sv_pred=True):
-    img_size = [2048, 1024]
+    img_size = [1024,2048]
     model.eval()
     confusion_matrix = np.zeros((config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
     with torch.no_grad():
