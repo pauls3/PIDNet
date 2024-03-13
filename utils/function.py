@@ -145,7 +145,7 @@ def testval(config, test_dataset, testloader, model,
             #         mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
             #     )
             
-            pred = F.interpolate(pred, size=img_size#size=image.size()[-2:], 
+            pred = F.interpolate(pred, size=img_size,#size=image.size()[-2:], 
                                  mode='bilinear', align_corners=True)
             pred = torch.argmax(pred, dim=1).squeeze(0).cpu().numpy()
             sv_img = np.zeros_like(img_size).astype(np.uint8)
