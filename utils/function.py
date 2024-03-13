@@ -147,12 +147,12 @@ def testval(config, test_dataset, testloader, model,
             #     )
             
             
-            confusion_matrix += get_confusion_matrix(
-                label,
-                pred,
-                size,
-                config.DATASET.NUM_CLASSES,
-                config.TRAIN.IGNORE_LABEL)
+            # confusion_matrix += get_confusion_matrix(
+            #     label,
+            #     pred,
+            #     size,
+            #     config.DATASET.NUM_CLASSES,
+            #     config.TRAIN.IGNORE_LABEL)
 
             if sv_pred:
                 sv_path = os.path.join(sv_dir, 'val_results')
@@ -162,22 +162,23 @@ def testval(config, test_dataset, testloader, model,
 
             if index % 100 == 0:
                 logging.info('processing: %d images' % index)
-                pos = confusion_matrix.sum(1)
-                res = confusion_matrix.sum(0)
-                tp = np.diag(confusion_matrix)
-                IoU_array = (tp / np.maximum(1.0, pos + res - tp))
-                mean_IoU = IoU_array.mean()
-                logging.info('mIoU: %.4f' % (mean_IoU))
+                # pos = confusion_matrix.sum(1)
+                # res = confusion_matrix.sum(0)
+                # tp = np.diag(confusion_matrix)
+                # IoU_array = (tp / np.maximum(1.0, pos + res - tp))
+                # mean_IoU = IoU_array.mean()
+                # logging.info('mIoU: %.4f' % (mean_IoU))
 
-    pos = confusion_matrix.sum(1)
-    res = confusion_matrix.sum(0)
-    tp = np.diag(confusion_matrix)
-    pixel_acc = tp.sum()/pos.sum()
-    mean_acc = (tp/np.maximum(1.0, pos)).mean()
-    IoU_array = (tp / np.maximum(1.0, pos + res - tp))
-    mean_IoU = IoU_array.mean()
+    # pos = confusion_matrix.sum(1)
+    # res = confusion_matrix.sum(0)
+    # tp = np.diag(confusion_matrix)
+    # pixel_acc = tp.sum()/pos.sum()
+    # mean_acc = (tp/np.maximum(1.0, pos)).mean()
+    # IoU_array = (tp / np.maximum(1.0, pos + res - tp))
+    # mean_IoU = IoU_array.mean()
 
-    return mean_IoU, IoU_array, pixel_acc, mean_acc
+    # return mean_IoU, IoU_array, pixel_acc, mean_acc
+    return 0, 0, 0, 0
 
 
 def test(config, test_dataset, testloader, model,
