@@ -164,15 +164,13 @@ def testval(config, test_dataset, testloader, model,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
 
-            print(name)
-
             if sv_pred:
                 sv_path = os.path.join(sv_dir, 'val_results')
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
                 # test_dataset.save_pred(pred, sv_path, name)
                 # test_dataset.save_pred(sv_img, sv_path, name)
-                sv_img.save(os.path.join(sv_path, name))
+                sv_img.save(os.path.join(sv_path, name[0]))
 
             if index % 100 == 0:
                 logging.info('processing: %d images' % index)
